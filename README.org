@@ -1,0 +1,6 @@
+-*- mode: org; mode: visual-line; -*-
+#+STARTUP: indent
+
+* =reveal.js-in-babashka=
+
+[[https://revealjs.com/][Reveal.js]] slides in [[https://babashka.org/][Babashka]].
