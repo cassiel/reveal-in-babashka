@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+    <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Touch Boards and Max</title>
+	<author>Nick Rothwell</author>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+
+        <link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+        <!-- NICK: extra styling. -->
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section><h3>Touch Boards and Max</h3><h4>Nick Rothwell</h4></section><section><h3>Overview and Concepts</h3><ul><li>Touch Boards and MIDI messages</li><li>Max and Media: audio and video playback</li><li>Integration: Touch Board as controller</li></ul></section><section><h3>Touch Boards and MIDI</h3><ul><li>MIDI is a 40-year-old communication protocol: low-speed, numbers between 0 and 127</li><li>Touch Boards with MIDI sketches (<span style="font-family: monospace;font-size: 0.8em;color: #A0A0FF;padding: 0px 5px">Midi_interface</span>, <span style="font-family: monospace;font-size: 0.8em;color: #A0A0FF;padding: 0px 5px">Midi_interface_generic</span>) can operate as MIDI <span style="font-style: italic;">controllers</span>, generating MIDI messages</li></ul></section><section><h3>MIDI Messages</h3><ul><li>Discrete messages, on/off: example, notes being played on a (piano) keyboard</li><li>Continuous messages, 0 to 127: example, volume control knob</li></ul></section><section><h3>MIDI into Max</h3><ul><li>Max supports both note and controller messages</li></ul><img height="200" src="images/max-ctlin-notein.jpg" style="margin:10px; vertical-align:middle"><ul><li>The Touch Board can send note messages (touch) or controller messages (proximity) - or both</li></ul></section><section><h3>Note Input</h3><img height="200" src="images/max-note-input.jpg" style="margin:10px; vertical-align:middle"><p>The numeric values are (right to left):</p><ul><li>MIDI channel (1 to 16): denotes which device is sending (or receiving)</li><li>Velocity of note - corresponds to loudness, always 127 from Touch Board</li><li>Pitch (note number): 48 upwards from Touch Board</li></ul></section><section><h3>Discriminating Between Values</h3><ul><li>We want to treat the Touch Board inputs individually</li><li>We can do this using a <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">select</span> object to pick out the pitch values</li></ul><img height="200" src="images/max-select.jpg" style="margin:10px; vertical-align:middle"></section><section><h3>Audio Playback</h3><img height="350" src="images/max-playlist.jpg" style="margin:10px; vertical-align:middle"></section><section><h3>Audio Playback</h3><ul><li>The audio 'jukebox' object is called <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">playlist~</span></li><li>You have to connect up audio yourself: the output object is called <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">ezdac~</span></li><li>Each <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">playlist~</span> can play one file at a time. If you want more, add another playlist</li></ul></section><section><h3>Video Playback</h3><img height="350" src="images/max-jit-playlist.jpg" style="margin:10px; vertical-align:middle"></section><section><h3>Video Playback</h3><ul><li>Very similar to audio. The object is <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">jit.playlist</span></li><li>We don't want to hear the audio tracks on video; disable by setting the <span style="font-family: monospace;font-size: 0.8em;color: #A0A0FF;padding: 0px 5px">vol</span> attribute to 0</li><li>Display video in a separate window with <span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">jit.window</span></li><li><span style="background-color: #404040;color: #C0C0C0;font-family: monospace;font-size: 0.8em;padding-left: 5px;padding-right: 5px;border-width: 7px 3px;border-style: solid;border-color: #606060;border-radius: 0px;">jit.window</span> has a <span style="font-family: monospace;font-size: 0.8em;color: #A0A0FF;padding: 0px 5px">fullscreen</span> attribute to project full-screen</li></ul></section><section><h3>Controlling playback regions</h3><p>Both objects accept a <span style="font-family: monospace;font-size: 0.8em;color: #A0A0FF;padding: 0px 5px">selection</span> message to set the playback selection</p><ul><li>First number: which file to set (starting from 1)</li><li>Second number: start of selection (0.0 to 1.0)</li><li>Third number: end of selection (0.0 to 1.0)</li></ul></section><section><h3>Final Exercise: Linking Up</h3><p>Attach the buttons that are triggered by the Touch Boards to the buttons which change the selection ranges</p><img height="300" src="images/hookup.jpg" style="margin:10px; vertical-align:middle"></section><section><h3>Linking Up</h3><ul><li>In the illustration, the Touch Board bangs the <span style="font-style: italic;">yellow buttons</span></li><li>The media patcher responds to the <span style="font-style: italic;">red buttons</span></li><li>Merge the code into one patcher, make the touch board change the audio and video selections</li></ul></section>
+            </div>
+        </div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+	 // More info about initialization & config:
+	 // - https://revealjs.com/initialization/
+	 // - https://revealjs.com/config/
+	 Reveal.initialize({
+	     hash: true,
+
+	     // Learn about plugins: https://revealjs.com/plugins/
+	     plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+	 });
+         // NICK: don't print incremental fragments in PDF.
+         // (TODO: should probably be templated somehow with a clj->js.)
+         Reveal.configure({pdfSeparateFragments: false});
+	</script>
+    </body>
+</html>
