@@ -16,8 +16,7 @@
                                                    "border-radius: 0px"
                                                    ""])}
            item])]
-  (r/render :template "../template.html"
-            :reveal-location (-> (System/getProperty "user.home")
+  (r/render :reveal-location (-> (System/getProperty "user.home")
                                  (File. "GITHUB")
                                  (File. "cassiel")
                                  (File. "reveal.js"))

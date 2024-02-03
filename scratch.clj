@@ -19,6 +19,8 @@
 
 (java.io.File. (java.io.File. "A") "B")
 
+(clojure.java.io/resource "templatex.html")
+
 (require '[net.cassiel.reveal-bb.render :as r])
 
 r/render

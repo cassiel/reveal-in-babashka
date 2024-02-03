@@ -17,7 +17,8 @@
                        "font-size: 0.8em"
                        "color: #A0A0FF"
                        #_ "background-color:rgba(150, 150, 150, 0.5)"
-                       "padding: 0px 5px"]
+                       "padding: 0px 5px"
+                       ""]
                       (clojure.string/join ";"))}
    (htmlize text)])
 
@@ -31,8 +32,9 @@
 
 (def image (partial image-h 480))
 
-(defn render [& {:keys [template theme title author slides reveal-location out-dir]}]
-  (let [template-html (slurp template)
+(defn render [& {:keys [theme title author slides reveal-location out-dir]}]
+  (let [template (clojure.java.io/resource "template.html")
+        template-html (slurp template)
         content (utils/as-html slides)
         all-html (-> template-html
                      (clojure.string/replace "__TITLE__" title)
