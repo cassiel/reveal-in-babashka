@@ -32,6 +32,13 @@
 
 (def image (partial image-h 480))
 
+(defn- copy-reveal-js [reveal-location out-dir]
+  (when (fs/exists? out-dir) (fs/delete-tree out-dir))
+  (fs/create-dir out-dir)
+  (doseq [f ["dist" "plugin"]]
+    (fs/copy-tree (File. reveal-location f)
+                  (File. out-dir f))))
+
 (defn render [& {:keys [theme title author slides reveal-location out-dir]}]
   (let [template (clojure.java.io/resource "template.html")
         template-html (slurp template)
@@ -41,7 +48,7 @@
                      (clojure.string/replace "__AUTHOR__" author)
                      (clojure.string/replace "__THEME__" (name theme))
                      (clojure.string/replace "__CONTENT__" content))
-        output-file (File. (File. out-dir) "index.html")]
-    (spit output-file all-html)
-    ;; TODO: delete and copy across Reveal.js subdirectories.
-    ))
+        out-dir (File. out-dir "_OUTPUT")]
+    (copy-reveal-js reveal-location out-dir)
+    (when (fs/exists? "images") (fs/copy-tree "images" (File. out-dir "images")))
+    (spit (File. out-dir "index.html") all-html)))

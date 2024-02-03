@@ -27,124 +27,129 @@
             :out-dir "."
 
             :slides [[:section
-                    [:h3 "Touch Boards and Max"]
-                    [:h4 "Nick Rothwell"]]
+                      [:h3 "Touch Boards and Max"]
+                      [:h4 "Nick Rothwell"]]
 
-                   [:section
-                    [:h3 "Overview and Concepts"]
+                     [:section
+                      [:section [:h3 "Stack 1"]]
+                      [:section [:h3 "Stack 2"]]
+                      ]
 
-                    [:ul
-                     [:li "Touch Boards and MIDI messages"]
-                     [:li "Max and Media: audio and video playback"]
-                     [:li "Integration: Touch Board as controller"]]
-                    ]
+                     [:section
+                      [:h3 "Overview and Concepts"]
 
-                   [:section
-                    [:h3 "Touch Boards and MIDI"]
+                      [:ul
+                       [:li "Touch Boards and MIDI messages"]
+                       [:li "Max and Media: audio and video playback"]
+                       [:li "Integration: Touch Board as controller"]]
+                      ]
 
-                    [:ul
-                     [:li "MIDI is a 40-year-old communication protocol: low-speed, numbers between 0 and 127"]
-                     [:li "Touch Boards with MIDI sketches (" (r/tt "Midi_interface") ", "
-                      (r/tt "Midi_interface_generic") ") can operate as MIDI " (it "controllers")
-                      ", generating MIDI messages"]]
-                    ]
+                     [:section
+                      [:h3 "Touch Boards and MIDI"]
 
-                   [:section
-                    [:h3 "MIDI Messages"]
+                      [:ul
+                       [:li "MIDI is a 40-year-old communication protocol: low-speed, numbers between 0 and 127"]
+                       [:li "Touch Boards with MIDI sketches (" (r/tt "Midi_interface") ", "
+                        (r/tt "Midi_interface_generic") ") can operate as MIDI " (it "controllers")
+                        ", generating MIDI messages"]]
+                      ]
 
-                    [:ul
-                     [:li "Discrete messages, on/off: example, notes being played on a (piano) keyboard"]
-                     [:li "Continuous messages, 0 to 127: example, volume control knob"]]]
+                     [:section
+                      [:h3 "MIDI Messages"]
 
-                   [:section
-                    [:h3 "MIDI into Max"]
+                      [:ul
+                       [:li "Discrete messages, on/off: example, notes being played on a (piano) keyboard"]
+                       [:li "Continuous messages, 0 to 127: example, volume control knob"]]]
 
-                    [:ul
-                     [:li "Max supports both note and controller messages"]]
+                     [:section
+                      [:h3 "MIDI into Max"]
 
-                    (r/image-h 200 "max-ctlin-notein.jpg")
+                      [:ul
+                       [:li "Max supports both note and controller messages"]]
 
-                    [:ul
-                     [:li "The Touch Board can send note messages (touch) or controller messages (proximity) - or both"]]
-                    ]
+                      (r/image-h 200 "max-ctlin-notein.jpg")
 
-                   [:section
-                    [:h3 "Note Input"]
-                    (r/image-h 200 "max-note-input.jpg")
+                      [:ul
+                       [:li "The Touch Board can send note messages (touch) or controller messages (proximity) - or both"]]
+                      ]
 
-                    [:p "The numeric values are (right to left):"]
+                     [:section
+                      [:h3 "Note Input"]
+                      (r/image-h 200 "max-note-input.jpg")
 
-                    [:ul
-                     [:li "MIDI channel (1 to 16): denotes which device is sending (or receiving)"]
-                     [:li "Velocity of note - corresponds to loudness, always 127 from Touch Board"]
-                     [:li "Pitch (note number): 48 upwards from Touch Board"]]
-                    ]
+                      [:p "The numeric values are (right to left):"]
 
-                   [:section
-                    [:h3 "Discriminating Between Values"]
+                      [:ul
+                       [:li "MIDI channel (1 to 16): denotes which device is sending (or receiving)"]
+                       [:li "Velocity of note - corresponds to loudness, always 127 from Touch Board"]
+                       [:li "Pitch (note number): 48 upwards from Touch Board"]]
+                      ]
 
-                    [:ul
-                     [:li "We want to treat the Touch Board inputs individually"]
-                     [:li "We can do this using a " (max-obj "select") " object to pick out the pitch values"]]
+                     [:section
+                      [:h3 "Discriminating Between Values"]
 
-                    (r/image-h 200 "max-select.jpg")
-                    ]
+                      [:ul
+                       [:li "We want to treat the Touch Board inputs individually"]
+                       [:li "We can do this using a " (max-obj "select") " object to pick out the pitch values"]]
 
-                   [:section
-                    [:h3 "Audio Playback"]
+                      (r/image-h 200 "max-select.jpg")
+                      ]
 
-                    (r/image-h 350 "max-playlist.jpg")]
+                     [:section
+                      [:h3 "Audio Playback"]
 
-                   [:section
-                    [:h3 "Audio Playback"]
+                      (r/image-h 350 "max-playlist.jpg")]
 
-                    [:ul
-                     [:li "The audio 'jukebox' object is called " (max-obj "playlist~")]
-                     [:li "You have to connect up audio yourself: the output object is called " (max-obj "ezdac~")]
-                     [:li "Each " (max-obj "playlist~") " can play one file at a time. If you want more, "
-                      "add another playlist"]]
-                    ]
+                     [:section
+                      [:h3 "Audio Playback"]
 
-                   [:section
-                    [:h3 "Video Playback"]
+                      [:ul
+                       [:li "The audio 'jukebox' object is called " (max-obj "playlist~")]
+                       [:li "You have to connect up audio yourself: the output object is called " (max-obj "ezdac~")]
+                       [:li "Each " (max-obj "playlist~") " can play one file at a time. If you want more, "
+                        "add another playlist"]]
+                      ]
 
-                    (r/image-h 350 "max-jit-playlist.jpg")]
+                     [:section
+                      [:h3 "Video Playback"]
 
-                   [:section
-                    [:h3 "Video Playback"]
+                      (r/image-h 350 "max-jit-playlist.jpg")]
 
-                    [:ul
-                     [:li "Very similar to audio. The object is " (max-obj "jit.playlist")]
-                     [:li "We don't want to hear the audio tracks on video; disable by setting the "
-                      (r/tt "vol") " attribute to 0"]
-                     [:li "Display video in a separate window with " (max-obj "jit.window")]
-                     [:li (max-obj "jit.window") " has a " (r/tt "fullscreen") " attribute to project full-screen"]]]
+                     [:section
+                      [:h3 "Video Playback"]
 
-                   [:section
-                    [:h3 "Controlling playback regions"]
+                      [:ul
+                       [:li "Very similar to audio. The object is " (max-obj "jit.playlist")]
+                       [:li "We don't want to hear the audio tracks on video; disable by setting the "
+                        (r/tt "vol") " attribute to 0"]
+                       [:li "Display video in a separate window with " (max-obj "jit.window")]
+                       [:li (max-obj "jit.window") " has a " (r/tt "fullscreen") " attribute to project full-screen"]]]
 
-                    [:p "Both objects accept a " (r/tt "selection") " message to set the playback selection"]
+                     [:section
+                      [:h3 "Controlling playback regions"]
 
-                    [:ul
-                     [:li "First number: which file to set (starting from 1)"]
-                     [:li "Second number: start of selection (0.0 to 1.0)"]
-                     [:li "Third number: end of selection (0.0 to 1.0)"]]]
+                      [:p "Both objects accept a " (r/tt "selection") " message to set the playback selection"]
 
-                   [:section
-                    [:h3 "Final Exercise: Linking Up"]
+                      [:ul
+                       [:li "First number: which file to set (starting from 1)"]
+                       [:li "Second number: start of selection (0.0 to 1.0)"]
+                       [:li "Third number: end of selection (0.0 to 1.0)"]]]
 
-                    [:p "Attach the buttons that are triggered by the Touch Boards to the buttons"
-                     " which change the selection ranges"]
+                     [:section
+                      [:h3 "Final Exercise: Linking Up"]
 
-                    (r/image-h 300 "hookup.jpg")
-                    ]
+                      [:p "Attach the buttons that are triggered by the Touch Boards to the buttons"
+                       " which change the selection ranges"]
 
-                   [:section
-                    [:h3 "Linking Up"]
+                      (r/image-h 300 "hookup.jpg")
+                      ]
 
-                    [:ul
-                     [:li "In the illustration, the Touch Board bangs the " (it "yellow buttons")]
-                     [:li "The media patcher responds to the " (it "red buttons")]
-                     [:li "Merge the code into one patcher, make the touch board change the audio and video selections"]]]
-                   ]
-          ))
+                     [:section
+                      [:h3 "Linking Up"]
+
+                      [:ul
+                       [:li "In the illustration, the Touch Board bangs the " (it "yellow buttons")]
+                       [:li "The media patcher responds to the " (it "red buttons")]
+                       [:li "Merge the code into one patcher, make the touch board change the audio and video selections"]]]
+                     ]
+            ))

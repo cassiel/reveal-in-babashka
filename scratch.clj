@@ -43,3 +43,8 @@ r/render
     )
 
 (slurp "template.html")
+
+(fs/cwd)
+
+(fs/delete-tree (File. (str (fs/cwd)) "_OUTPUT"))
+(fs/create-dir (File. (str (fs/cwd)) "_OUTPUT"))
