@@ -1,7 +1,8 @@
 (require '[net.cassiel.reveal-bb.render :as r])
 (import '[java.io.File])
 
-(letfn [(ce [item] [:span.colour-emph item])
+(letfn [;; Drop in function one-liners here - though these two are hardly worth it, use local-style.css instead.
+        (ce [item] [:span.colour-emph item])
         (it [item] [:span {:style "font-style: italic;"} item])
         ]
   (r/render :reveal-location (-> (System/getProperty "user.home")
@@ -14,7 +15,7 @@
             :author "Nick Rothwell"
 
             :slides [[:section
-                      [:h3 "Touch Boards and Max"]
+                      [:h3 (ce "Touch Boards") " and " (ce "Max")]
                       [:h4 "Nick Rothwell"]]
 
                      [:section

@@ -31,8 +31,8 @@
 
 (defn include [f]
   (let [content (-> (slurp (File. "include" f))
-                    (htmlize))]
-    [:pre content]
+                    #_ (htmlize))]
+    [:pre [:code {:data-trim 1} [:script {:type "text/template"} content]]]
     ))
 
 (defn- copy-reveal-js [reveal-location out-dir]
