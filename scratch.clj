@@ -17,6 +17,8 @@
 
 (import 'java.io.File)
 
+(File. "~/X")
+
 (java.io.File. (java.io.File. "A") "B")
 
 (clojure.java.io/resource "templatex.html")

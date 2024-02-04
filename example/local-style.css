@@ -1,0 +1,25 @@
+span.tt {
+  color: #A0A0FF;
+}
+
+span.it {
+  font-style: italic;
+}
+
+span.colour-emph {
+  color: #EBB734;
+  font-weight: bold;
+}
+
+span.max-obj {
+  background-color: #404040;
+  color: #C0C0C0;
+  font-family: monospace;
+  font-size: 0.8em;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-width: 7px 3px;
+  border-style: solid;
+  border-color: #606060;
+  border-radius: 0px;
+}

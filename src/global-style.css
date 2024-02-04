@@ -1,0 +1,15 @@
+/* Global styles. These are used by `render`: */
+
+span.tt {
+  font-family: monospace;
+  font-size: 0.8em;
+  /* background-color:rgba(150, 150, 150, 0.5) */
+  padding: 0px 5px;
+}
+
+img {
+  margin: 10px;
+  vertical-align: middle;
+}
+
+/* Personalise to add global styling below (over and above presentation-specific styles): */

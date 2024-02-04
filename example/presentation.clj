@@ -3,19 +3,7 @@
 
 (letfn [(ce [item] [:span.colour-emph item])
         (it [item] [:span {:style "font-style: italic;"} item])
-        (max-obj [item]
-          [:span {:style (clojure.string/join ";" ["background-color: #404040"
-                                                   "color: #C0C0C0"
-                                                   "font-family: monospace"
-                                                   "font-size: 0.8em"
-                                                   "padding-left: 5px"
-                                                   "padding-right: 5px"
-                                                   "border-width: 7px 3px"
-                                                   "border-style: solid"
-                                                   "border-color: #606060"
-                                                   "border-radius: 0px"
-                                                   ""])}
-           item])]
+        ]
   (r/render :reveal-location (-> (System/getProperty "user.home")
                                  (File. "GITHUB")
                                  (File. "cassiel")
@@ -24,7 +12,6 @@
             :theme :black
             :title "Touch Boards and Max"
             :author "Nick Rothwell"
-            :out-dir "."
 
             :slides [[:section
                       [:h3 "Touch Boards and Max"]
@@ -50,7 +37,7 @@
                       [:ul
                        [:li "MIDI is a 40-year-old communication protocol: low-speed, numbers between 0 and 127"]
                        [:li "Touch Boards with MIDI sketches (" (r/tt "Midi_interface") ", "
-                        (r/tt "Midi_interface_generic") ") can operate as MIDI " (it "controllers")
+                        (r/tt "Midi_interface_generic") ") can operate as MIDI " [:span.it "controllers"]
                         ", generating MIDI messages"]]
                       ]
 
@@ -90,7 +77,7 @@
 
                       [:ul
                        [:li "We want to treat the Touch Board inputs individually"]
-                       [:li "We can do this using a " (max-obj "select") " object to pick out the pitch values"]]
+                       [:li "We can do this using a " [:span.max-obj "select"] " object to pick out the pitch values"]]
 
                       (r/image-h 200 "max-select.jpg")
                       ]
@@ -104,9 +91,9 @@
                       [:h3 "Audio Playback"]
 
                       [:ul
-                       [:li "The audio 'jukebox' object is called " (max-obj "playlist~")]
-                       [:li "You have to connect up audio yourself: the output object is called " (max-obj "ezdac~")]
-                       [:li "Each " (max-obj "playlist~") " can play one file at a time. If you want more, "
+                       [:li "The audio 'jukebox' object is called " [:span.max-obj "playlist~"]]
+                       [:li "You have to connect up audio yourself: the output object is called " [:span.max-obj "ezdac~"]]
+                       [:li "Each " [:span.max-obj "playlist~"] " can play one file at a time. If you want more, "
                         "add another playlist"]]
                       ]
 
@@ -119,11 +106,11 @@
                       [:h3 "Video Playback"]
 
                       [:ul
-                       [:li "Very similar to audio. The object is " (max-obj "jit.playlist")]
+                       [:li "Very similar to audio. The object is " [:span.max-obj "jit.playlist"]]
                        [:li "We don't want to hear the audio tracks on video; disable by setting the "
                         (r/tt "vol") " attribute to 0"]
-                       [:li "Display video in a separate window with " (max-obj "jit.window")]
-                       [:li (max-obj "jit.window") " has a " (r/tt "fullscreen") " attribute to project full-screen"]]]
+                       [:li "Display video in a separate window with " [:span.max-obj "jit.window"]]
+                       [:li [:span.max-obj "jit.window"] " has a " (r/tt "fullscreen") " attribute to project full-screen"]]]
 
                      [:section
                       [:h3 "Controlling playback regions"]
@@ -148,8 +135,8 @@
                       [:h3 "Linking Up"]
 
                       [:ul
-                       [:li "In the illustration, the Touch Board bangs the " (it "yellow buttons")]
-                       [:li "The media patcher responds to the " (it "red buttons")]
+                       [:li "In the illustration, the Touch Board bangs the " [:span.it "yellow buttons"]]
+                       [:li "The media patcher responds to the " [:span.it "red buttons"]]
                        [:li "Merge the code into one patcher, make the touch board change the audio and video selections"]]]
                      ]
             ))
