@@ -1,4 +1,12 @@
 (require '[babashka.fs :as fs])
+(import 'java.io.File)
+
+(File.
+ (fs/expand-home
+  (fs/file "~/A/B")))
+
+(File. (str (fs/expand-home "~/A/B")))
+
 
 (fs/read-all-lines "/Users/nick/GITHUB/cassiel/reveal.js/index.html")
 

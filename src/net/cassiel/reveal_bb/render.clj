@@ -41,7 +41,7 @@
   (when (fs/exists? out-dir) (fs/delete-tree out-dir))
   (fs/create-dir out-dir)
   (doseq [f ["dist" "plugin"]]
-    (fs/copy-tree (File. reveal-location f)
+    (fs/copy-tree (File. (str reveal-location) f)
                   (File. out-dir f))))
 
 (defn render [& {:keys [theme title author slides reveal-location css out-dir]
@@ -58,7 +58,7 @@
                      (clojure.string/replace "__THEME__" (name theme))
                      (clojure.string/replace "__CONTENT__" content))
         out-dir (File. out-dir "_OUTPUT")]
-    (copy-reveal-js reveal-location out-dir)
+    (copy-reveal-js (fs/expand-home reveal-location) out-dir)
 
     (fs/copy (clojure.java.io/resource global-css) (File. out-dir global-css))
 

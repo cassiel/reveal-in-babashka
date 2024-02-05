@@ -1,15 +1,10 @@
 (require '[net.cassiel.reveal-bb.render :as r])
-(import '[java.io.File])
 
 (letfn [;; Drop in function one-liners here - though these two are hardly worth it, use local-style.css instead.
         (ce [item] [:span.colour-emph item])
         (it [item] [:span {:style "font-style: italic;"} item])
         ]
-  (r/render :reveal-location (-> (System/getProperty "user.home")
-                                 (File. "GITHUB")
-                                 (File. "cassiel")
-                                 (File. "reveal.js"))
-
+  (r/render :reveal-location "~/GITHUB/cassiel/reveal.js"
             :theme :black
             :title "Touch Boards and Max"
             :author "Nick Rothwell"
