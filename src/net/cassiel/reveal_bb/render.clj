@@ -29,10 +29,12 @@
 
 (def image (partial image-h 480))
 
-(defn include [f]
+(defn include [f & {:keys [lines]}]
   (let [content (-> (slurp (File. "include" f))
                     #_ (htmlize))]
-    [:pre [:code {:data-trim 1} [:script {:type "text/template"} content]]]
+    (let [attrs {:data-trim 1}
+          attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
+      [:pre [:code attrs [:script {:type "text/template"} content]]])
     ))
 
 (defn- copy-reveal-js [reveal-location out-dir]
