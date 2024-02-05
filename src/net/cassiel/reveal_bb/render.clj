@@ -44,13 +44,12 @@
     (fs/copy-tree (File. reveal-location f)
                   (File. out-dir f))))
 
-(defn render [& {:keys [theme title author slides reveal-location out-dir]
-                 :or {out-dir "."}}]
+(defn render [& {:keys [theme title author slides reveal-location css out-dir]
+                 :or {css "local-style.css"
+                      out-dir "."}}]
   (let [template (clojure.java.io/resource "template.html")
-
-        global-style-name "global-style.css"
-
-        global-style (clojure.java.io/resource global-style-name)
+        global-css "global-style.css"
+        global-style (clojure.java.io/resource global-css)
         template-html (slurp template)
         content (utils/as-html slides)
         all-html (-> template-html
@@ -61,11 +60,9 @@
         out-dir (File. out-dir "_OUTPUT")]
     (copy-reveal-js reveal-location out-dir)
 
-    (let [g-css "global-style.css"]
-      (fs/copy (clojure.java.io/resource g-css) (File. out-dir g-css)))
+    (fs/copy (clojure.java.io/resource global-css) (File. out-dir global-css))
 
-    (let [l-css "local-style.css"]
-      (when (fs/exists? l-css) (fs/copy l-css (File. out-dir l-css))))
+    (when (fs/exists? css) (fs/copy css (File. out-dir "local-style.css")))
 
     (let [img "images"]
       (when (fs/exists? img) (fs/copy-tree img (File. out-dir img))))
