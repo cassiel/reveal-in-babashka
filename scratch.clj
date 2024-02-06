@@ -7,6 +7,7 @@
 
 (File. (str (fs/expand-home "~/A/B")))
 
+(fs/file "X")
 
 (fs/read-all-lines "/Users/nick/GITHUB/cassiel/reveal.js/index.html")
 

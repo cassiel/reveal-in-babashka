@@ -1,7 +1,6 @@
 (ns net.cassiel.reveal-bb.render
   (:require [babashka.pods :as pods]
-            [babashka.fs :as fs])
-  (:import [java.io File]))
+            [babashka.fs :as fs]))
 
 (pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
 (require '[pod.retrogradeorbit.bootleg.utils :as utils])
@@ -23,14 +22,13 @@
 (defn image-h [h f]
   [:img {:height h
          :src (->> f
-                   (File. "images")
-                   #_ (File. ASSET-ROOT-URL)
+                   (fs/file "images")
                    str)}])
 
 (def image (partial image-h 480))
 
 (defn include [f & {:keys [lines]}]
-  (let [content (-> (slurp (File. "include" f))
+  (let [content (-> (slurp (fs/file "include" f))
                     #_ (htmlize))]
     (let [attrs {:data-trim 1}
           attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
@@ -41,8 +39,8 @@
   (when (fs/exists? out-dir) (fs/delete-tree out-dir))
   (fs/create-dir out-dir)
   (doseq [f ["dist" "plugin"]]
-    (fs/copy-tree (File. (str reveal-location) f)
-                  (File. out-dir f))))
+    (fs/copy-tree (fs/file reveal-location f)
+                  (fs/file out-dir f))))
 
 (defn render [& {:keys [theme title author slides reveal-location css out-dir]
                  :or {css "local-style.css"
@@ -52,19 +50,21 @@
         global-style (clojure.java.io/resource global-css)
         template-html (slurp template)
         content (utils/as-html slides)
+        reveal-location (fs/expand-home reveal-location)
+        out-dir (fs/expand-home out-dir)
         all-html (-> template-html
                      (clojure.string/replace "__TITLE__" title)
                      (clojure.string/replace "__AUTHOR__" author)
                      (clojure.string/replace "__THEME__" (name theme))
                      (clojure.string/replace "__CONTENT__" content))
-        out-dir (File. out-dir "_OUTPUT")]
+        out-dir (fs/file out-dir "_OUTPUT")]
     (copy-reveal-js (fs/expand-home reveal-location) out-dir)
 
-    (fs/copy (clojure.java.io/resource global-css) (File. out-dir global-css))
+    (fs/copy (clojure.java.io/resource global-css) (fs/file out-dir global-css))
 
-    (when (fs/exists? css) (fs/copy css (File. out-dir "local-style.css")))
+    (when (fs/exists? css) (fs/copy css (fs/file out-dir "local-style.css")))
 
     (let [img "images"]
-      (when (fs/exists? img) (fs/copy-tree img (File. out-dir img))))
+      (when (fs/exists? img) (fs/copy-tree img (fs/file out-dir img))))
 
-    (spit (File. out-dir "index.html") all-html)))
+    (spit (fs/file out-dir "index.html") all-html)))
