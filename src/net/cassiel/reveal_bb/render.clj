@@ -1,9 +1,6 @@
 (ns net.cassiel.reveal-bb.render
-  (:require [babashka.pods :as pods]
-            [babashka.fs :as fs]))
-
-(pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
-(require '[pod.retrogradeorbit.bootleg.utils :as utils])
+  (:require [babashka.fs :as fs]
+            [pod.retrogradeorbit.bootleg.utils :as utils]))
 
 (defn htmlize [text]
   (-> text
