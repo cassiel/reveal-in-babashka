@@ -1,9 +1,26 @@
 (require '[babashka.fs :as fs])
 (import 'java.io.File)
 
+(Integer/toBinaryString 34)
+
+(java.util.Date. (* 1 60 1000 1000 1000))
+
 (File.
  (fs/expand-home
   (fs/file "~/A/B")))
+
+
+(reduce (fn [result [k v]]
+          (let [kv (str (name k) ": " v)]
+            (if result
+              (str result "; " kv)
+              kv)))
+        nil
+
+
+        (seq
+         {:color "red"
+          :background-color "#F0F0F0"}))
 
 (File. (str (fs/expand-home "~/A/B")))
 

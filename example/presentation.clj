@@ -1,4 +1,5 @@
-(require '[net.cassiel.reveal-bb.render :as r])
+(ns user
+  (:require [net.cassiel.reveal-bb.render :as r]))
 
 (letfn [;; Drop in function one-liners here - though these two are hardly worth it, use local-style.css instead.
         (ce [item] [:span.colour-emph item])
@@ -14,8 +15,33 @@
                       [:h4 "Nick Rothwell"]]
 
                      ;; [:section ...] around a list of [:section [:h3 "Slide 1"]] etc.
-                     (r/element :section (map (fn [i] [:section [:h3 (str "Slide " (inc i))]])
-                                              (range 10)))
+                     (letfn [(pad8 [s]
+                               (if (< (count s) 8)
+                                 (recur (str "0" s))
+                                 s)
+                               )
+                             (slide [i]
+                               [:section
+                                [:h3 (str "Slide " i)]
+
+                                [:table
+                                 [:thead
+                                  [:tr [:th "Format"] [:th "Value"]]]
+
+                                 [:tbody
+                                  [:tr [:td "Decimal"] [:td (ce i)]]
+                                  [:tr [:td "Hexadecimal (16 bit)"] [:td [:span.tt (format "%04X" i)]]]
+                                  [:tr [:td "Binary (8 bit)"] [:td [:span.tt (pad8 (Integer/toBinaryString i))]]]
+                                  [:tr [:td "Inverse"] [:td (ce (format "%1.5f" (float (/ 1 i))))]]
+                                  [:tr [:td "Billions of minutes since epoch"]
+                                   [:td (ce (str (java.util.Date. (* i 1000 1000 1000))))]]
+                                  [:tr [:td "Hue"]
+                                   [:td [:span (r/style {:padding "5px"
+                                                         :display "block"
+                                                         :background-color (format "hsl(%d, 100%%, 50%%)" i)}) "&nbsp;"]
+                                    ]]]]])]
+
+                       (r/element :section (map slide (range 1 300 21))))
 
                      ;; Something more generative
                      [:section

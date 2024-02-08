@@ -29,6 +29,15 @@
 (defn squote [& items] (apply quote "&lsquo;" "&lsquo;" items))
 (defn dquote [& items] (apply quote "&ldquo;" "&rdquo;" items))
 
+(defn style [items]
+  {:style
+   (reduce (fn [result [k v]]
+             (let [kv (str (name k) ": " v)]
+               (if result
+                 (str result "; " kv)
+                 kv)))
+           nil
+           items)})
 
 (defn link
   "Raw link, URL monospaced - or link with text."
