@@ -1,2 +1,3 @@
 {:pods {retrogradeorbit/bootleg {:version "0.1.9"}}
- :paths ["../src"]}
+ :paths ["../src"]                      ; Good for local development; at some point soon we should also be a pod.
+ }

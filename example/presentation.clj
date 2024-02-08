@@ -6,17 +6,30 @@
         ]
   (r/render :reveal-location "~/GITHUB/cassiel/reveal.js"
             :theme :black
-            :title "Touch Boards and Max"
+            :title "Demo Presentation"
             :author "Nick Rothwell"
 
             :slides [[:section
-                      [:h3 (ce "Touch Boards") " and " (ce "Max")]
+                      [:h3 "Demo Presentation"]
                       [:h4 "Nick Rothwell"]]
 
+                     ;; [:section ...] around a list of [:section [:h3 "Slide 1"]] etc.
+                     (r/element :section (map (fn [i] [:section [:h3 (str "Slide " (inc i))]])
+                                              (range 10)))
+
+                     ;; Something more generative
                      [:section
-                      [:section [:h3 "Stack 1"]]
-                      [:section [:h3 "Stack 2"]]
-                      ]
+                      [:h3 "Generated Table"]
+
+                      [:table
+                       [:thead
+                        [:tr
+                         [:th "Value"]
+                         [:th "Square"]
+                         [:th "Inverse"]]]
+
+                       (r/element :tbody (map (fn [i] [:tr [:td i] [:td (* i i)] [:td (float (/ 1 i))]])
+                                              (range 1 7)))]]
 
                      [:section
                       [:h3 "Overview and Concepts"]

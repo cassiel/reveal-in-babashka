@@ -8,8 +8,27 @@
       (clojure.string/replace "<" "&lt;")
       (clojure.string/replace ">" "&gt;")))
 
-(defn tt [text]
+(defn ^:deprecated tt [text]
+  ;; TODO: should this allow multiple items (like quotes, below)?
   [:span.tt (htmlize text)])
+
+(defn element [tag items]
+  (vec (cons tag items)))
+
+(defn- quote [lq rq & items]
+  (as-> items X
+    (interpose " " X)
+    (cons lq X)
+    (cons :span X)
+    (vec X)
+    (conj X rq))
+  )
+
+;; TODO: do we care about smart quotes in apostrophes?
+
+(defn squote [& items] (apply quote "&lsquo;" "&lsquo;" items))
+(defn dquote [& items] (apply quote "&ldquo;" "&rdquo;" items))
+
 
 (defn link
   "Raw link, URL monospaced - or link with text."
