@@ -34,7 +34,7 @@
                                   [:tr [:td "Binary (8 bit)"] [:td [:span.tt (pad8 (Integer/toBinaryString i))]]]
                                   [:tr [:td "Inverse"] [:td (ce (format "%1.5f" (float (/ 1 i))))]]
                                   [:tr [:td "Billions of minutes since epoch"]
-                                   [:td (ce (str (java.util.Date. (* i 1000 1000 1000))))]]
+                                   [:td (ce (str (java.util.Date. (* i 60 1000 1000 1000))))]]
                                   [:tr [:td "Hue"]
                                    [:td [:span (r/style {:padding "5px"
                                                          :display "block"
