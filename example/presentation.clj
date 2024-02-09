@@ -1,10 +1,8 @@
 (ns user
   (:require [net.cassiel.reveal-bb.render :as r]))
 
-(letfn [;; Drop in function one-liners here - though these two are hardly worth it, use local-style.css instead.
-        (ce [item] [:span.colour-emph item])
-        (it [item] [:span {:style "font-style: italic;"} item])
-        ]
+(letfn [;; Drop in function one-liners here - though this one is hardly worth it, use `local-style.css` instead.
+        (ce [item] [:span.colour-emph item])]
   (r/render :reveal-location "~/GITHUB/cassiel/reveal.js"
             :theme :black
             :title "Demo Presentation"

@@ -12,7 +12,10 @@
   ;; TODO: should this allow multiple items (like quotes, below)?
   [:span.tt (htmlize text)])
 
-(defn element [tag items]
+(defn element
+  "Build a Hiccup element. Useful for building elements from iteration
+   over a sequence, and/or using a `#(...)` lambda."
+  [tag items]
   (vec (cons tag items)))
 
 (defn- quote [lq rq & items]
@@ -29,6 +32,7 @@
 (defn squote [& items] (apply quote "&lsquo;" "&lsquo;" items))
 (defn dquote [& items] (apply quote "&ldquo;" "&rdquo;" items))
 
+;; `style` places ";" as separator, not terminator, so might not be 100% legit.
 (defn style [items]
   {:style
    (reduce (fn [result [k v]]
