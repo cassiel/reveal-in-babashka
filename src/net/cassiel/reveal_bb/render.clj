@@ -46,7 +46,7 @@
 (defn link
   "Raw link, URL monospaced - or link with text."
   ([url content] [:a {:href url} content])
-  ([url] (link url [:code url])))
+  ([url] (link url [:code.link url])))
 
 (defn image-h [h f]
   [:img {:height h
@@ -56,12 +56,17 @@
 
 (def image (partial image-h 480))
 
-(defn include [f & {:keys [lines]}]
+(defn include [f & {:keys [h w lines scale]
+                    :or {h 400 w 800 scale 1.0}}]
   (let [content (-> (slurp (fs/file "include" f))
                     #_ (htmlize))]
-    (let [attrs {:data-trim 1}
+    (let [attrs {:data-trim 1
+                 ;; :style "height: 500px"
+                 }
           attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
-      [:pre [:code attrs [:script {:type "text/template"} content]]])
+      [:pre (style {:height (format "%dpx" h)
+                    :width (format "%dpx" w)
+                    :font-size (format "%.2fem" (* scale 0.5))}) [:code attrs [:script {:type "text/template"} content]]])
     ))
 
 (defn- copy-reveal-js [reveal-location out-dir]

@@ -7,6 +7,10 @@ span.tt {
   padding: 0px 5px;
 }
 
+code.link {
+  font-size: 0.8em;
+}
+
 img {
   margin: 10px;
   vertical-align: middle;
