@@ -48,13 +48,19 @@
   ([url content] [:a {:href url} content])
   ([url] (link url [:code.link url])))
 
-(defn image-h [h f]
+(defn ^:deprecated image-h [h f]
   [:img {:height h
          :src (->> f
                    (fs/file "images")
                    str)}])
 
-(def image (partial image-h 480))
+(defn image [f & {:keys [h] :or {h 480}}]
+  [:img {:height h
+         :src (->> f
+                   (fs/file "images")
+                   str)}])
+
+;;(def image (partial image-h 480))
 
 (defn include [f & {:keys [h w lines scale]
                     :or {h 400 w 800 scale 1.0}}]
