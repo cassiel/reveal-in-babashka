@@ -1,3 +1,8 @@
-{:pods {retrogradeorbit/bootleg {:version "0.1.9"}}
+{:pods  {retrogradeorbit/bootleg {:version "0.1.9"}
+         org.babashka/fswatcher  {:version "0.0.5"}}
+
  :paths ["../src"]                      ; Good for local development; at some point soon we should also be a pod.
- }
+
+ ;; Tasks (distinct from running "bb filename.clj"):
+ :tasks {watch {:requires ([net.cassiel.reveal-bb.watcher :as w])
+                :task     (w/watch-all "presentation.clj")}}}

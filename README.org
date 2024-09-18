@@ -3,4 +3,11 @@
 
 * =reveal.js-babashka=
 
-[[https://revealjs.com/][Reveal.js]] slide rendering from [[https://github.com/weavejester/hiccup][Hiccup]], implemented in [[https://babashka.org/][Babashka]].
+[[https://revealjs.com/][Reveal.js]] slide rendering from [[https://github.com/weavejester/hiccup][Hiccup]] (or, potentially, anything via [[https://github.com/retrogradeorbit/bootleg][Bootleg)]], implemented in [[https://babashka.org/][Babashka]].
+
+** Usage
+
+- Place a copy of =bb.edn= in the root directory of your presentation(s)
+- Check the path in =bb.edn= to make sure =:paths= points to the =src= of this repository
+- Do =bb presentation.clj= to do a one-shot processing of a presentation
+- Update the arguments to =watch-all= and do a =bb watch= to start a watcher on several source files (note: we don't yet support watching of directories, or any other files other than the presentation file itself, so if they change, restart the script)
