@@ -9,6 +9,7 @@
 
 - Place a copy of =bb.edn= in the root directory of your presentation(s)
 - Check the path in =bb.edn= to make sure =:paths= points to the =src= of this repository
-- Check the path to =:reveal-location= in the presentations: it needs to point to a checked-out copy of [[https://github.com/cassiel/reveal.js][this]] (and, annoyingly, it's done here so that we get proper expansion of "~=~")
+- Check out a copy of [[https://github.com/cassiel/reveal.js][our reveal.js]] and (important) switch to the =ssi-version= branch
+- =bb.edn= again: make sure =REVEAL_LOCATION= is set to this reveal.js checkout
 - Do =bb presentation.clj= to do a one-shot processing of a presentation
 - Update the arguments to =watch-all= and do a =bb watch= to start a watcher on several source files (note: we don't yet support watching of directories, or any other files other than the presentation file itself, so if they change, restart the script)

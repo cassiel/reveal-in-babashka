@@ -76,3 +76,16 @@ r/render
 
 (fs/delete-tree (File. (str (fs/cwd)) "_OUTPUT"))
 (fs/create-dir (File. (str (fs/cwd)) "_OUTPUT"))
+
+(System/getenv "HOME")
+
+(str (fs/file (fs/home)
+              "GITHUB"
+              "cassiel"
+              "reveal.js"))
+
+(shell/sh "printenv" "HELLO" :env {:HELLO 99})
+
+(doseq [x (fs/glob "." "example/*.clj")] (println (str x)))
+
+(re-matches #".*\.clj$" "x.clj")

@@ -3,10 +3,13 @@
             [pod.babashka.fswatcher :as fw]
             [clojure.java.shell :refer [sh]]))
 
-(defn watch [clj-file]
+(defn watch [reveal-location clj-file]
   (letfn [(process []
             (println (str (java.util.Date.)) "--" clj-file)
-            (sh "bb" clj-file))]
+            (-> (sh "bb" clj-file :env {:REVEAL_LOCATION reveal-location})
+                :out
+                print)
+            (println "DONE"))]
     (process)
     (fw/watch clj-file
               (fn [event]
@@ -15,6 +18,10 @@
                   (process)))
               {:delay-ms 250})))
 
-(defn watch-all [& clj-files]
-  (doseq [f clj-files] (watch f))
+(defn watch-all [reveal-location filespec]
+  (doseq [path (fs/glob "." filespec)
+          :let [name (str path)]]
+    (if (re-matches #".*\.clj$" name)
+      (watch reveal-location name)
+      (println "ignoring" name)))
   (deref (promise)))

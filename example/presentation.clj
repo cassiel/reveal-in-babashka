@@ -3,8 +3,7 @@
 
 (letfn [;; Drop in function one-liners here - though this one is hardly worth it, use `local-style.css` instead.
         (ce [item] [:span.colour-emph item])]
-  (r/render :reveal-location "~/GITHUB/cassiel/reveal.js"
-            :theme :black
+  (r/render :theme :black
             :title "Demo Presentation"
             :author "Nick Rothwell"
 
