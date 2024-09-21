@@ -97,6 +97,7 @@
                             (clojure.string/replace "__AUTHOR__" author)
                             (clojure.string/replace "__THEME__" (name theme))
                             (clojure.string/replace "__CONTENT__" content))
+        ;; TODO: out-dir should be alongside the input file, with a unique name.
         out-dir         (fs/file out-dir "_OUTPUT")]
     (copy-reveal-js (fs/expand-home reveal-location) out-dir)
 
@@ -104,6 +105,7 @@
 
     (when (fs/exists? css) (fs/copy css (fs/file out-dir "local-style.css")))
 
+    ;; TODO: need to pull images from the same folder as the presentation.
     (let [img "images"]
       (when (fs/exists? img) (fs/copy-tree img (fs/file out-dir img))))
 
