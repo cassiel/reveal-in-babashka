@@ -80,33 +80,38 @@
     (fs/copy-tree (fs/file reveal-location f)
                   (fs/file out-dir f))))
 
-(defn render [& {:keys [theme title author slides reveal-location css out-dir]
+(defn render [& {:keys [theme title author slides reveal-location input-location css out-dir]
                  :or   {css             "local-style.css"
                         out-dir         "."
+                        input-location  (System/getenv "INPUT_LOCATION")
                         reveal-location (System/getenv "REVEAL_LOCATION")}}]
-  #_ (println "REVEAL_LOCATION" reveal-location "slides" slides)
+  (println "REVEAL_LOCATION" reveal-location)
+  (println "INPUT_LOCATION" input-location)
+
   (let [template        (clojure.java.io/resource "template.html")
         global-css      "global-style.css"
         global-style    (clojure.java.io/resource global-css)
         template-html   (slurp template)
         content         (utils/as-html slides)
         reveal-location (fs/expand-home reveal-location)
-        out-dir         (fs/expand-home out-dir)
+        out-dir         (-> (fs/expand-home out-dir)
+                            (fs/file "_OUTPUT"))
+        css             (fs/file input-location css)
         all-html        (-> template-html
                             (clojure.string/replace "__TITLE__" title)
                             (clojure.string/replace "__AUTHOR__" author)
                             (clojure.string/replace "__THEME__" (name theme))
                             (clojure.string/replace "__CONTENT__" content))
         ;; TODO: out-dir should be alongside the input file, with a unique name.
-        out-dir         (fs/file out-dir "_OUTPUT")]
+        ]
     (copy-reveal-js (fs/expand-home reveal-location) out-dir)
 
-    (fs/copy (clojure.java.io/resource global-css) (fs/file out-dir global-css))
+    (fs/copy (clojure.java.io/resource global-css)
+             (fs/file out-dir global-css))
 
     (when (fs/exists? css) (fs/copy css (fs/file out-dir "local-style.css")))
 
-    ;; TODO: need to pull images from the same folder as the presentation.
-    (let [img "images"]
-      (when (fs/exists? img) (fs/copy-tree img (fs/file out-dir img))))
+    (let [img (fs/file input-location "images")]
+      (when (fs/exists? img) (fs/copy-tree img (fs/file out-dir "images"))))
 
     (spit (fs/file out-dir "index.html") all-html)))

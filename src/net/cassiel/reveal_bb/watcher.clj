@@ -6,9 +6,10 @@
 (defn watch [reveal-location clj-file]
   (letfn [(process []
             (println (str (java.util.Date.)) "--" clj-file)
-            (-> (sh "bb" clj-file :env {:REVEAL_LOCATION reveal-location})
-                :out
-                print)
+            (let [output (sh "bb" clj-file :env {:INPUT_LOCATION (-> (fs/absolutize clj-file) (fs/parent))
+                                                 :REVEAL_LOCATION reveal-location})]
+              (print (:out output))
+              (print (:err output)))
             (println "DONE"))]
     (process)
     (fw/watch clj-file

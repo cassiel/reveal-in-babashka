@@ -89,3 +89,10 @@ r/render
 (doseq [x (fs/glob "." "example/*.clj")] (println (str x)))
 
 (re-matches #".*\.clj$" "x.clj")
+
+(-> (fs/file "./xxxx.clj")
+    (fs/parent)
+    (as-> X
+        (fs/file X "yyyy.clj")))
+
+(fs/absolutize "scratch.clj")
