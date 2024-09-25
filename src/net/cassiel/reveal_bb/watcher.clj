@@ -7,10 +7,11 @@
   (letfn [(process []
             (println (str (java.util.Date.)) "--" clj-file)
             (let [output (sh "bb" clj-file :env {:INPUT_LOCATION (-> (fs/absolutize clj-file) (fs/parent))
+                                                 :INPUT_FILE (fs/file-name clj-file)
                                                  :REVEAL_LOCATION reveal-location})]
-              (print (:out output))
-              (print (:err output)))
-            (println "DONE"))]
+              (print "OUT:" (:out output))
+              (print "ERR:" (:err output))
+              (println "DONE")))]
     (process)
     (fw/watch clj-file
               (fn [event]

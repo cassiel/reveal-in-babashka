@@ -96,3 +96,10 @@ r/render
         (fs/file X "yyyy.clj")))
 
 (fs/absolutize "scratch.clj")
+
+(fnext (re-find #"(.+)\.clj" "presentation.clj"))
+(fs/strip-ext "x/presentation.clj")
+
+(fs/absolutize "x.clj")
+
+(fs/file-name "a/b.clj")

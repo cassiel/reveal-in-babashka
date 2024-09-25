@@ -75,27 +75,27 @@
 
 (defn- copy-reveal-js [reveal-location out-dir]
   (when (fs/exists? out-dir) (fs/delete-tree out-dir))
-  (fs/create-dir out-dir)
+  (fs/create-dirs out-dir)
   (doseq [f ["dist" "plugin"]]
     (fs/copy-tree (fs/file reveal-location f)
                   (fs/file out-dir f))))
 
-(defn render [& {:keys [theme title author slides reveal-location input-location css out-dir]
-                 :or   {css             "local-style.css"
-                        out-dir         "."
-                        input-location  (System/getenv "INPUT_LOCATION")
-                        reveal-location (System/getenv "REVEAL_LOCATION")}}]
-  (println "REVEAL_LOCATION" reveal-location)
-  (println "INPUT_LOCATION" input-location)
-
-  (let [template        (clojure.java.io/resource "template.html")
+(defn render [& {:keys [theme title author slides css]
+                 :or   {css "local-style.css"}}]
+  (let [input-location  (System/getenv "INPUT_LOCATION")
+        input-slug      (-> (System/getenv "INPUT_FILE")
+                       fs/strip-ext)
+        reveal-location (System/getenv "REVEAL_LOCATION")
+        _               (do   (println "REVEAL_LOCATION" reveal-location)
+                              (println "INPUT_LOCATION" input-location)
+                              (println "INPUT_SLUG" input-slug))
+        template        (clojure.java.io/resource "template.html")
         global-css      "global-style.css"
         global-style    (clojure.java.io/resource global-css)
         template-html   (slurp template)
         content         (utils/as-html slides)
         reveal-location (fs/expand-home reveal-location)
-        out-dir         (-> (fs/expand-home out-dir)
-                            (fs/file "_OUTPUT"))
+        out-dir         (fs/file input-location "_OUTPUT" input-slug)
         css             (fs/file input-location css)
         all-html        (-> template-html
                             (clojure.string/replace "__TITLE__" title)
