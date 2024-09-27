@@ -18,7 +18,7 @@
                 ;; (println event)
                 (when (#{:write :write|chmod} (:type event))
                   (process)))
-              {:delay-ms 250})))
+              {:delay-ms 500})))
 
 (defn watch-all [reveal-location filespec]
   (doseq [path (fs/glob "." filespec)
