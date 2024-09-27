@@ -8,7 +8,7 @@
             :author "Nick Rothwell"
 
             :slides [[:section
-                      [:h3 "Demo Presentation"]
+                      [:h2 "Demo Presentation"]
                       [:h4 "Nick Rothwell"]]
 
                      ;; [:section ...] around a list of [:section [:h3 "Slide 1"]] etc.
