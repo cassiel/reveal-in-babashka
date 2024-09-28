@@ -10,3 +10,7 @@ NB: we aren't doing a watch on Markdown files at present.
 ---
 
 ## Next Slide
+
+As noted, the enclosing presentation needs to be served from an actual (local) web server.
+
+Also, note that we completely replace `_OUTPUT` on render, so maybe not have that tree as current directory for the server.
