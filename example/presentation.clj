@@ -40,7 +40,10 @@
 
                        (r/element :section (map slide (range 1 300 21))))
 
-                     ;; Something more generative
+                     ;; Try to bring in some markdown (we copy "md" across as a known asset directory):
+                     [:section {:data-markdown "md/content.md"}]
+
+                     ;; Something more generative:
                      [:section
                       [:h3 "Generated Table"]
 

@@ -111,7 +111,7 @@
 
     (when (fs/exists? css) (fs/copy css (fs/file out-dir "local-style.css")))
 
-    (doseq [dir ["images" "assets"]]
+    (doseq [dir ["images" "assets" "md"]]
       (let [full-dir (fs/file input-location dir)]
         (when (fs/exists? full-dir) (fs/copy-tree full-dir (fs/file out-dir dir)))))
 
