@@ -16,4 +16,10 @@ img {
   vertical-align: middle;
 }
 
+/* In print-pdf the author line seems to appear and push everything down. So: */
+
+author {
+  display: none;
+}
+
 /* Personalise to add global styling below (over and above presentation-specific styles): */
