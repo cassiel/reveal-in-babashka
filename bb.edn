@@ -5,10 +5,12 @@
 
  ;; Tasks (distinct from running "REVEAL_LOCATION=xxxxx bb filename.clj"):
  :tasks {:requires ([babashka.fs :as fs])
+         ;; Get location of our reveal.js, branch "ssi-version" (for a modified page template):
          :init (def REVEAL_LOCATION (str (fs/file (fs/home)
                                                   "GITHUB"
                                                   "cassiel"
                                                   "reveal.js")))
+         ;; This is suboptimal as it only watches the CLJs, not assets or included text/code.
          watch {:doc      "Spawn watcher for each of a sequence of CLJ presentation files."
                 :requires ([net.cassiel.reveal-bb.watcher :as w])
                 :task     (w/watch-all REVEAL_LOCATION "example/*.clj" )}}}
