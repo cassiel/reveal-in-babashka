@@ -60,9 +60,13 @@
                    (fs/file "images")
                    str)}])
 
-(defn include [f & {:keys [h w lines scale]
-                    :or {h 400 w 800 scale 1.0}}]
-  (let [content (-> (slurp (fs/file "include" f))
+(defn include
+  "Include some code. Unlike images/assets, this is done in the renderer, not by
+   the final web server or viewer."
+  [f & {:keys [h w lines scale]
+        :or {h 400 w 800 scale 1.0}}]
+  (let [input-location  (System/getenv "INPUT_LOCATION")        ; TODO: can't we just rebind instead?
+        content (-> (slurp (fs/file input-location "include" f))
                     #_ (htmlize))]
     (let [attrs {:data-trim 1
                  :width "100%"
@@ -84,12 +88,11 @@
 (defn render [& {:keys [theme title author slides css]
                  :or   {css "local-style.css"}}]
   (let [input-location  (System/getenv "INPUT_LOCATION")
-        input-slug      (-> (System/getenv "INPUT_FILE")
-                       fs/strip-ext)
+        input-slug      (fs/strip-ext (System/getenv "INPUT_FILE"))
         reveal-location (System/getenv "REVEAL_LOCATION")
-        _               (do   (println "REVEAL_LOCATION" reveal-location)
-                              (println "INPUT_LOCATION" input-location)
-                              (println "INPUT_SLUG" input-slug))
+        _               (do   (println ">> REVEAL_LOCATION:" reveal-location)
+                              (println ">> INPUT_LOCATION: " input-location)
+                              (println ">> INPUT_SLUG:     " input-slug))
         template        (clojure.java.io/resource "template.html")
         global-css      "global-style.css"
         global-style    (clojure.java.io/resource global-css)
