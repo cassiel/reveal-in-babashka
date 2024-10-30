@@ -65,6 +65,7 @@
   (let [content (-> (slurp (fs/file "include" f))
                     #_ (htmlize))]
     (let [attrs {:data-trim 1
+                 :width "100%"
                  ;; :style "height: 500px"
                  }
           attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
