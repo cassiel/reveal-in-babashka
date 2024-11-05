@@ -88,11 +88,14 @@
 (defn render [& {:keys [theme title author slides css]
                  :or   {css "local-style.css"}}]
   (let [input-location  (System/getenv "INPUT_LOCATION")
-        input-slug      (fs/strip-ext (System/getenv "INPUT_FILE"))
+        input-file      (System/getenv "INPUT_FILE")
+        input-slug      (fs/strip-ext input-file)
         reveal-location (System/getenv "REVEAL_LOCATION")
-        _               (do   (println ">> REVEAL_LOCATION:" reveal-location)
-                              (println ">> INPUT_LOCATION: " input-location)
-                              (println ">> INPUT_SLUG:     " input-slug))
+        _               (when false
+                          (println ">> REVEAL_LOCATION:" reveal-location)
+                          (println ">> INPUT_LOCATION: " input-location)
+                          (println ">> INPUT_FILE:     " input-file)
+                          (println ">> input_slug:     " input-slug))
         template        (clojure.java.io/resource "template.html")
         global-css      "global-style.css"
         global-style    (clojure.java.io/resource global-css)
