@@ -60,6 +60,15 @@
                    (fs/file "images")
                    str)}])
 
+(defn youtube-embed [id & {:keys [h]
+                           :or {h 400}}]
+  [:iframe {:id "ytplayer"
+            :type "text/html"
+            :height h
+            :width (int (* h 16/9))
+            :src (format "http://www.youtube.com/embed/%s" id)
+            :frameborder 0}])
+
 (defn include
   "Include some code. Unlike images/assets, this is done in the renderer, not by
    the final web server or viewer."
