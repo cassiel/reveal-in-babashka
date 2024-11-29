@@ -69,6 +69,25 @@
             :src (format "http://www.youtube.com/embed/%s" id)
             :frameborder 0}])
 
+(defn pre-line-
+  [content & {:keys [h w lines scale]}]
+  (let [attrs {:data-trim 1
+               :width "100%"
+               ;; :style "height: 500px"
+               }
+        attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
+    [:pre (style {:height (format "%dpx" h)
+                  :width (format "%dpx" w)
+                  :font-size (format "%.2fem" (* scale 0.5))}) [:code attrs [:script {:type "text/template"} content]]]))
+
+(defn pre
+  [code-lines & {:keys [h w lines scale]
+                 :or {h 400 w 800 scale 1.0}}]
+  (let [content (if (string? code-lines)
+                  code-lines
+                  (clojure.string/join "\n" code-lines))]
+    (pre-line- content :h h :w w :lines lines :scale scale)))
+
 (defn include
   "Include some code. Unlike images/assets, this is done in the renderer, not by
    the final web server or viewer."
@@ -77,15 +96,7 @@
   (let [input-location  (System/getenv "INPUT_LOCATION")        ; TODO: can't we just rebind instead?
         content (-> (slurp (fs/file input-location "include" f))
                     #_ (htmlize))]
-    (let [attrs {:data-trim 1
-                 :width "100%"
-                 ;; :style "height: 500px"
-                 }
-          attrs (if lines (assoc attrs :data-line-numbers lines) attrs)]
-      [:pre (style {:height (format "%dpx" h)
-                    :width (format "%dpx" w)
-                    :font-size (format "%.2fem" (* scale 0.5))}) [:code attrs [:script {:type "text/template"} content]]])
-    ))
+    (pre-line- content :h h :w w :lines lines :scale scale)))
 
 (defn- copy-reveal-js [reveal-location out-dir]
   (when (fs/exists? out-dir) (fs/delete-tree out-dir))
